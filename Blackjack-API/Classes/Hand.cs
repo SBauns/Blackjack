@@ -11,7 +11,7 @@ namespace BlackjackAPI.Classes
     public class Hand
     {
         //PROPERTIES
-        private Quantity Score;
+        private Dictionary<string, Quantity> Scores;
 
         public IsBusted Isbusted { get; private set; }
 
@@ -20,7 +20,11 @@ namespace BlackjackAPI.Classes
 
         public Hand()
         {
-            Score = new Quantity(0);
+            Scores = new Dictionary<string, Quantity>()
+            {
+                    {"Low", new Quantity(0)},
+                    {"High", new Quantity(0)}
+            };
             Isbusted = new IsBusted(false);
             Cards = new List<Card>();
         }
@@ -28,7 +32,21 @@ namespace BlackjackAPI.Classes
         public void ReceiveCard(Card card)
         {
             Cards.Add(card);
-            Score.addToValue(card.GetValue());
+            if (card.GetValue() > 10) //Royalty cards are worth 10 points
+            {
+                Scores["Low"].addToValue(10);
+                Scores["High"].addToValue(10); //Alternative value for Ace
+            }
+            else if (card.GetValue() == 1) //Ace can be worth 1 or 11 points
+            {
+                Scores["Low"].addToValue(1);
+                Scores["High"].addToValue(11); //Alternative value for Ace
+            }
+            else
+            {
+                Scores["Low"].addToValue(card.GetValue());
+                Scores["High"].addToValue(card.GetValue());
+            }
             IsBusted();
         }
 
@@ -38,7 +56,8 @@ namespace BlackjackAPI.Classes
             foreach (Card card in Cards)
             {
                 returnedCards.Add(card);
-                Score.substractFromValue(card.GetValue());
+                Scores["Low"].substractFromValue(card.GetValue());
+                Scores["High"].substractFromValue(card.GetValue());
             }
             Cards.Clear();
             return returnedCards;
@@ -46,18 +65,19 @@ namespace BlackjackAPI.Classes
 
         public int GetScore()
         {
-            return Score.GetValue();
+            if (Scores["High"].GetValue() > 21)
+            {
+                return Scores["Low"].GetValue();
+            }
+            else
+            {
+                return Scores["High"].GetValue();
+            }
         }
 
         public bool IsBusted()
         {
-            int totalValue = 0;
-            foreach (Card card in Cards)
-            {
-                totalValue += card.GetValue();
-            }
-            Score = new Quantity(totalValue);
-            if (totalValue > 21) //TODO Set this somewhere else or magic number
+            if (Scores["Low"].GetValue() > 21 && Scores["High"].GetValue() > 21) //TODO Set this somewhere else or magic number
             {
                 Isbusted.SetValue(true);
             }

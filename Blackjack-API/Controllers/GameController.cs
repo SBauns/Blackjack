@@ -39,7 +39,6 @@ namespace BlackjackAPI.Controllers
         public IActionResult Stand(Guid dealerId)
         {
             CheckForDealerAndPlayer(dealerId, out Dealer? dealer, out Player? player);
-
             player.Stand();
             if(dealer.IsGameOver())
             {
