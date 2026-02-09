@@ -1,0 +1,86 @@
+using BlackjackAPI.DomainPrimitives;
+
+namespace BlackjackAPI.Classes
+{
+    public class Deck
+    {
+        //PROPERTIES
+        private Quantity Count;
+
+        private List<Card> Cards;
+
+        private List<Card> DiscardedCards;
+
+        public Deck()
+        {
+            Cards = new List<Card>();
+            DiscardedCards = new List<Card>();
+            InitializeDeck();
+            Count = new Quantity(Cards.Count);
+        }
+
+        private void InitializeDeck()
+        {
+            try
+            {
+                //Generate standard 52 card deck
+                foreach (Suit suit in Enum.GetValues(typeof(Suit)))
+                {
+                    for (int value = 1; value <= 13; value++)
+                    {
+                        Cards.Add(new Card(new CardQuantity(value), suit));
+                    }
+                }    
+
+                if (Cards == null)
+                {
+                    throw new System.Exception("Failed to initialize deck.");
+                }
+
+                shuffle();
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
+
+        public void shuffle()
+        {
+            //Move all cards to discard
+            foreach (Card card in Cards)
+            {
+                PutInDiscard(card);
+            }
+            Cards.Clear();
+
+            //Randomly move cards back to deck
+            Random rng = new Random();
+            int amountOfCards = DiscardedCards.Count;
+            while (amountOfCards > 0)
+            {
+                amountOfCards--;
+                int randomCard = rng.Next(amountOfCards + 1);
+                Cards.Add(DiscardedCards[randomCard]);
+                DiscardedCards.RemoveAt(randomCard);
+            }
+        }
+
+        public Card GetTopCard()
+        {
+
+            if (Cards.Count == 0)
+            {
+                throw new System.Exception("Deck is empty.");
+            }
+            Card card = Cards[0];
+            Cards.RemoveAt(0);
+            return card; 
+        }
+
+        public void PutInDiscard(Card card)
+        {
+            DiscardedCards.Add(card);
+        }
+    }
+}
