@@ -32,6 +32,19 @@ namespace BlackjackAPI.Classes
         public void ReceiveCard(Card card)
         {
             Cards.Add(card);
+
+            if (card.IsFaceDown())
+            {
+                return;
+            }
+
+            addToScore(card);
+
+            IsBusted();
+        }
+
+        private void addToScore(Card card)
+        {
             if (card.GetValue() > 10) //Royalty cards are worth 10 points
             {
                 Scores["Low"].addToValue(10);
@@ -47,7 +60,6 @@ namespace BlackjackAPI.Classes
                 Scores["Low"].addToValue(card.GetValue());
                 Scores["High"].addToValue(card.GetValue());
             }
-            IsBusted();
         }
 
         public List<Card> ReturnCards()
@@ -61,6 +73,18 @@ namespace BlackjackAPI.Classes
             }
             Cards.Clear();
             return returnedCards;
+        }
+
+        public void FlipUpAllCards()
+        {
+            foreach (Card card in Cards)
+            {
+                if (card.IsFaceDown())
+                {
+                    card.FlipCard();
+                    addToScore(card);
+                }
+            }
         }
 
         public int GetScore()
@@ -88,11 +112,7 @@ namespace BlackjackAPI.Classes
             HandDataTransferObject dto = new HandDataTransferObject();
             dto.Score = GetScore();
             dto.IsBusted = Isbusted.GetValue();
-            dto.Cards = Cards.Select(card => new CardDataTransferObject
-            {
-                Value = card.GetValue(),
-                Suit = card.GetSuit()
-            }).ToList();
+            dto.Cards = Cards.Select(card => card.ToDataTransferObject()).ToList();
             return dto;
         }
     }

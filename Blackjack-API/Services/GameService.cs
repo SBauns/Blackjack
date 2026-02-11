@@ -1,33 +1,46 @@
 using BlackjackAPI.Classes;
+using System.Collections.Concurrent;
 
 namespace BlackjackAPI.Services
 {
     public class GameService
     {
-        public List<Dealer> Dealers = new List<Dealer>();
+
+        private static ConcurrentDictionary<string, Dealer> Dealers = new();
+
         public GameService()
         {
             
         }
 
+        public Dealer JoinDealer(string dealerId)
+        {
+            Dealer dealer = Dealers.GetOrAdd(dealerId, id => new Dealer());
+
+            return dealer;
+        }
+
+        public Dealer GetDealer(string dealerId)
+        {
+            Dealers.TryGetValue(dealerId, out var dealer);
+            return dealer;
+        }
+
+        public ConcurrentDictionary<string, Dealer> GetDealers()
+        {
+            return Dealers;
+        }
+
         public Dealer StartGame()
         {
-            Dealer dealer = new Dealer(new DomainPrimitives.Name(RandomDealerName()));
-            Dealers.Add(dealer);
+            Dealer dealer = new Dealer();
+            Dealers.AddOrUpdate(dealer.Id.ToString(), dealer, (key, existingDealer) => dealer);
             return dealer;
         }
 
         public void EndGame(Dealer dealer)
         {
-            Dealers.Remove(dealer);
-        }
-
-        private string RandomDealerName()
-        {
-            string[] names = { "Alice", "Bob", "Charlie", "Diana", "Eve" };
-            Random rand = new Random();
-            int index = rand.Next(names.Length);
-            return names[index];
+            Dealers.TryRemove(dealer.Id.ToString(), out _);
         }
     }
 }

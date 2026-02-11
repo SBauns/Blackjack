@@ -4,14 +4,17 @@ namespace BlackjackAPI.Classes
 {
     public class PlayerDataTransferObject
     {
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public int Credits { get; set; }
         public HandDataTransferObject Hand { get; set; }
+        public bool HasWon { get; set; }
         public bool IsStanding { get; set; }
     }
     public class Player
     {
         //PROPERTIES
+        public Guid Id { get; private set; }
         public Name Name { get; private set; }
         public Quantity Credits { get; private set; }
 
@@ -20,8 +23,10 @@ namespace BlackjackAPI.Classes
         public Hand Hand { get; private set; }
 
         public bool IsStanding { get; private set; } = false;
+        public bool HasWon { get; set; } = false;
         public Player(Name name, Quantity credits, Dealer dealer)
         {
+            Id = Guid.NewGuid();
             Name = name;
             Credits = credits;
             Dealer = dealer;
@@ -32,6 +37,10 @@ namespace BlackjackAPI.Classes
         {
             Card card = Dealer.Deal();
             Hand.ReceiveCard(card);
+            if (Hand.IsBusted())
+            {
+                IsStanding = true;
+            }
         }
 
         public void Reset()
@@ -52,19 +61,12 @@ namespace BlackjackAPI.Classes
         {
             return new PlayerDataTransferObject
             {
-                Name = Name.ToString(),
+                Id = Id,
+                Name = Name.GetValue(),
                 Credits = Credits.GetValue(),
-                Hand = new HandDataTransferObject
-                {
-                    Score = Hand.GetScore(),
-                    IsBusted = Hand.IsBusted(),
-                    Cards = Hand.Cards.Select(card => new CardDataTransferObject
-                    {
-                        Value = card.GetValue(),
-                        Suit = card.GetSuit()
-                    }).ToList()
-                },
-                IsStanding = IsStanding
+                Hand = Hand.ToDataTransferObject(),
+                IsStanding = IsStanding,
+                HasWon = HasWon
             };
         }
     }

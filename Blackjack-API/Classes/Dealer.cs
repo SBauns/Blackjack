@@ -23,17 +23,39 @@ namespace BlackjackAPI.Classes
 
         public Hand Hand;
 
-        public Dealer(Name name)
+        public Dealer()
         {
             Id = Guid.NewGuid();
-            Name = name;
+            Name = new Name(RandomDealerName());
             Deck = new Deck();
             Players = new List<Player>();
             Hand = new Hand();
         }
 
+        public void SetupGame()
+        {
+            foreach (Player player in Players)
+            {
+                player.Reset();
+            }
+            Deck.Shuffle();
+
+            Hand.ReturnCards();
+
+            foreach (Player player in Players)
+            {
+                player.Hit();
+            }
+
+            Card card = Deck.GetTopCard();
+            card.FlipCard();
+            Hand.ReceiveCard(card);
+            Hand.ReceiveCard(Deck.GetTopCard());
+        }
+
         public void PlayerJoin(Player player)
         {
+            player.Hit();
             Players.Add(player);
         }
 
@@ -62,13 +84,16 @@ namespace BlackjackAPI.Classes
             return Players.All(p => p.IsStanding);
         }
 
-        public List<Player> EvaluateVictory()
+        public void EvaluateVictory()
         {
-            List<Player> winningPlayers = new List<Player>();
+            Hand.FlipUpAllCards();
             //Build own hand
-            while (!Hand.IsBusted() && Hand.GetScore() < 17) //TODO Set this somewhere else or magic number
+            if (!Players.All(p => p.Hand.IsBusted()))
             {
-                Hand.ReceiveCard(Deal());
+                while (!Hand.IsBusted() && Hand.GetScore() < 17 && Players.Any(p => p.Hand.GetScore() > Hand.GetScore())) //TODO Set this somewhere else or magic number
+                {
+                    Hand.ReceiveCard(Deal());
+                }      
             }
 
             //Compare to players
@@ -81,15 +106,21 @@ namespace BlackjackAPI.Classes
                 
                 if ((playerBeatsDealer && playerNotBusted) || (dealerBusted && playerNotBusted))
                 {
-                    winningPlayers.Add(player);
+                    player.HasWon = true;
                 }
                 // else if (player.Hand.Score.GetValue() <= Hand.Score.GetValue() && !Hand.Isbusted)
                 // {
                 //     //Dealer wins
                 // }
             }
+        }
 
-            return winningPlayers;
+        private string RandomDealerName()
+        {
+            string[] names = { "Alice", "Bob", "Charlie", "Diana", "Eve" };
+            Random rand = new Random();
+            int index = rand.Next(names.Length);
+            return names[index];
         }
 
         public DealerDataTransferObject ToDataTransferObject()
@@ -98,32 +129,8 @@ namespace BlackjackAPI.Classes
             {
                 Id = this.Id,
                 Name = this.Name.GetValue(),
-                Players = this.Players.Select(p => new PlayerDataTransferObject
-                {
-                    Name = p.Name.GetValue(),
-                    Credits = p.Credits.GetValue(),
-                    Hand = new HandDataTransferObject
-                    {
-                        Score = p.Hand.GetScore(),
-                        IsBusted = p.Hand.IsBusted(),
-                        Cards = p.Hand.Cards.Select(c => new CardDataTransferObject
-                        {
-                            Value = c.GetValue(),
-                            Suit = c.GetSuit()
-                        }).ToList()
-                    },
-                    IsStanding = p.IsStanding
-                }).ToList(),
-                Hand = new HandDataTransferObject
-                {
-                    Score = this.Hand.GetScore(),
-                    IsBusted = this.Hand.IsBusted(),
-                    Cards = this.Hand.Cards.Select(c => new CardDataTransferObject
-                    {
-                        Value = c.GetValue(),
-                        Suit = c.GetSuit()
-                    }).ToList()
-                }
+                Players = this.Players.Select(player => player.ToDataTransferObject()).ToList(),
+                Hand = this.Hand.ToDataTransferObject()
             };
         }
     }

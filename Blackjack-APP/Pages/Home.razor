@@ -1,7 +1,118 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.SignalR.Client;
+@using Newtonsoft.Json;
+@using System.Text.Json
+@using Newtonsoft.Json.Linq
+@inject NavigationManager NavigationManager
 
-<PageTitle>Home</PageTitle>
+<h4>@_errorMessage</h4>
+<h3>Blackjack</h3>
 
-<h1>Hello, world!</h1>
 
-Welcome to your new app.
+@if (_dealer != null)
+{
+    <button class="btn btn-success" @onclick="Hit">Hit</button>
+    <button class="btn btn-warning" @onclick="Stand">Stand</button>
+    <h5>Dealer: @_dealer.Name</h5>
+    <p>Score: @_dealer.Hand.Score</p>
+    <div>
+        @foreach (var card in _dealer.Hand.Cards)
+        {
+            if(card.IsFaceDown)
+            {
+                <img src="/cards/backside.png" alt="Card Image" width="80px"/>
+                continue;
+            }
+            else{
+                <img src="@($"/cards/{card.Suit.First()}{card.Value}.png")" alt="Card Image" width="80px"/>
+            }
+        }
+    </div>
+    @foreach (Player player in _dealer.Players)
+    {
+        <div class="player-container @(player.HasWon ? "player-won" : "player-neutral") p-2 m-2">
+            <h5>Player: @player.Name</h5>
+            <p>Score: @player.Hand.Score</p>
+            <div>
+                @foreach (var card in player.Hand.Cards)
+                {
+                    <img src="@($"/cards/{card.Suit.First()}{card.Value}.png")" 
+                        alt="Card Image" width="80px" />
+                }
+            </div>
+    </div>
+    }
+}
+else
+{
+    <input type="text" @bind="playerName" placeholder="Player Name" class="form-control mb-2" />
+    <button class="btn btn-primary" @onclick="CreateGame">Create Game</button>
+    <p>No game created yet.</p>
+}
+
+@code {
+    private HubConnection? hubConnection;
+    private string gameId = Guid.NewGuid().ToString();
+    private Dealer _dealer;
+
+    private string playerName = "Player";
+
+    private string _playerId;
+
+    private string _errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl("http://localhost:5049/dealerhub") //TODO Do not hardcode
+            .WithAutomaticReconnect()
+            .Build();
+
+        hubConnection.On<Dealer, string>("DealerUpdated", (Dealer dealer, string playerId) =>
+        {
+            _dealer = dealer;
+            _playerId = playerId;
+            _errorMessage = string.Empty;
+            InvokeAsync(StateHasChanged);
+        });
+
+        hubConnection.On<Dealer>("GameOver", (Dealer dealer) =>
+        {
+            _dealer = dealer;
+            _errorMessage = "Game Over!";
+            InvokeAsync(StateHasChanged);
+        });
+
+        hubConnection.On<string>("Error", (string errorMessage) =>
+        {
+            _errorMessage = errorMessage;
+            InvokeAsync(StateHasChanged);
+        });
+
+        await hubConnection.StartAsync();
+    }
+
+    private async Task CreateGame()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.InvokeAsync("JoinDealer", gameId, playerName);
+        }
+    }
+
+    private async Task Hit()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.InvokeAsync("Hit", gameId, _playerId);
+        }
+    }
+
+    private async Task Stand()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.InvokeAsync("Stand", gameId, _playerId);
+        }
+    }
+}

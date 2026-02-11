@@ -37,7 +37,7 @@ namespace BlackjackAPI.Classes
                     throw new System.Exception("Failed to initialize deck.");
                 }
 
-                shuffle();
+                Shuffle();
             }
             catch (System.Exception)
             {
@@ -45,7 +45,7 @@ namespace BlackjackAPI.Classes
             }
         }
 
-        public void shuffle()
+        public void Shuffle()
         {
             //Move all cards to discard
             foreach (Card card in Cards)

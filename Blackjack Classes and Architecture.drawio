@@ -5,9 +5,9 @@
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="PeoV-E5NaPvogQtkDd-s-1" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Card" vertex="1">
-          <mxGeometry height="138" width="160" x="580" y="430" as="geometry" />
+          <mxGeometry height="138" width="160" x="590" y="524" as="geometry" />
         </mxCell>
-        <mxCell id="PeoV-E5NaPvogQtkDd-s-2" parent="PeoV-E5NaPvogQtkDd-s-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="Value : Quantity" vertex="1">
+        <mxCell id="PeoV-E5NaPvogQtkDd-s-2" parent="PeoV-E5NaPvogQtkDd-s-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="Value : CardQuantity" vertex="1">
           <mxGeometry height="26" width="160" y="26" as="geometry" />
         </mxCell>
         <mxCell id="PeoV-E5NaPvogQtkDd-s-45" parent="PeoV-E5NaPvogQtkDd-s-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="Suit: Suit" vertex="1">
@@ -16,7 +16,7 @@
         <mxCell id="PeoV-E5NaPvogQtkDd-s-3" parent="PeoV-E5NaPvogQtkDd-s-1" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
           <mxGeometry height="8" width="160" y="78" as="geometry" />
         </mxCell>
-        <mxCell id="PeoV-E5NaPvogQtkDd-s-4" parent="PeoV-E5NaPvogQtkDd-s-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="GetValue : Quantity" vertex="1">
+        <mxCell id="PeoV-E5NaPvogQtkDd-s-4" parent="PeoV-E5NaPvogQtkDd-s-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="GetValue : CardQuantity" vertex="1">
           <mxGeometry height="26" width="160" y="86" as="geometry" />
         </mxCell>
         <mxCell id="PeoV-E5NaPvogQtkDd-s-46" parent="PeoV-E5NaPvogQtkDd-s-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="GetSuit : Suit" vertex="1">
@@ -25,37 +25,51 @@
         <mxCell id="PeoV-E5NaPvogQtkDd-s-17" edge="1" parent="1" source="PeoV-E5NaPvogQtkDd-s-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=ERzeroToMany;endFill=0;" target="PeoV-E5NaPvogQtkDd-s-1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="600" y="450" />
+              <mxPoint x="660" y="500" />
+              <mxPoint x="660" y="500" />
             </Array>
+            <mxPoint x="740" y="440" as="sourcePoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="PeoV-E5NaPvogQtkDd-s-5" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Deck" vertex="1">
-          <mxGeometry height="112" width="160" x="580" y="224" as="geometry" />
+          <mxGeometry height="216" width="160" x="580" y="260" as="geometry" />
         </mxCell>
-        <mxCell id="PeoV-E5NaPvogQtkDd-s-6" parent="PeoV-E5NaPvogQtkDd-s-5" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="Count : Quantity" vertex="1">
+        <mxCell id="PeoV-E5NaPvogQtkDd-s-6" parent="PeoV-E5NaPvogQtkDd-s-5" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="Count : Quantity&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
           <mxGeometry height="26" width="160" y="26" as="geometry" />
         </mxCell>
+        <mxCell id="PeoV-E5NaPvogQtkDd-s-54" parent="PeoV-E5NaPvogQtkDd-s-5" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="Discarded: List&amp;lt;Cards&amp;gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="26" width="160" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="PeoV-E5NaPvogQtkDd-s-55" parent="PeoV-E5NaPvogQtkDd-s-5" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="Current: List&amp;lt;Cards&amp;gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="26" width="160" y="78" as="geometry" />
+        </mxCell>
         <mxCell id="PeoV-E5NaPvogQtkDd-s-7" parent="PeoV-E5NaPvogQtkDd-s-5" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
-          <mxGeometry height="8" width="160" y="52" as="geometry" />
+          <mxGeometry height="8" width="160" y="104" as="geometry" />
+        </mxCell>
+        <mxCell id="PeoV-E5NaPvogQtkDd-s-53" parent="PeoV-E5NaPvogQtkDd-s-5" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="InitializeDeck : Void" vertex="1">
+          <mxGeometry height="26" width="160" y="112" as="geometry" />
         </mxCell>
         <mxCell id="PeoV-E5NaPvogQtkDd-s-25" parent="PeoV-E5NaPvogQtkDd-s-5" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="Shuffle : Void" vertex="1">
-          <mxGeometry height="26" width="160" y="60" as="geometry" />
+          <mxGeometry height="26" width="160" y="138" as="geometry" />
         </mxCell>
-        <mxCell id="PeoV-E5NaPvogQtkDd-s-8" parent="PeoV-E5NaPvogQtkDd-s-5" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="Deal : Void" vertex="1">
-          <mxGeometry height="26" width="160" y="86" as="geometry" />
+        <mxCell id="PeoV-E5NaPvogQtkDd-s-59" parent="PeoV-E5NaPvogQtkDd-s-5" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="GetTopCard: Card" vertex="1">
+          <mxGeometry height="26" width="160" y="164" as="geometry" />
+        </mxCell>
+        <mxCell id="PeoV-E5NaPvogQtkDd-s-58" parent="PeoV-E5NaPvogQtkDd-s-5" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="PutInDiscard: Card" vertex="1">
+          <mxGeometry height="26" width="160" y="190" as="geometry" />
         </mxCell>
         <mxCell id="PeoV-E5NaPvogQtkDd-s-18" edge="1" parent="1" source="PeoV-E5NaPvogQtkDd-s-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=ERzeroToMany;endFill=0;" target="PeoV-E5NaPvogQtkDd-s-1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="490" y="463" />
-              <mxPoint x="490" y="463" />
+              <mxPoint x="500" y="557" />
+              <mxPoint x="500" y="557" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="PeoV-E5NaPvogQtkDd-s-9" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Hand" vertex="1">
-          <mxGeometry height="112" width="160" x="310" y="430" as="geometry" />
+          <mxGeometry height="164" width="160" x="310" y="524" as="geometry" />
         </mxCell>
-        <mxCell id="PeoV-E5NaPvogQtkDd-s-10" parent="PeoV-E5NaPvogQtkDd-s-9" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="Value : Quantity" vertex="1">
+        <mxCell id="PeoV-E5NaPvogQtkDd-s-10" parent="PeoV-E5NaPvogQtkDd-s-9" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="Score: Quantity" vertex="1">
           <mxGeometry height="26" width="160" y="26" as="geometry" />
         </mxCell>
         <mxCell id="PeoV-E5NaPvogQtkDd-s-43" parent="PeoV-E5NaPvogQtkDd-s-9" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="IsBusted : Bool" vertex="1">
@@ -64,8 +78,14 @@
         <mxCell id="PeoV-E5NaPvogQtkDd-s-11" parent="PeoV-E5NaPvogQtkDd-s-9" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
           <mxGeometry height="8" width="160" y="78" as="geometry" />
         </mxCell>
-        <mxCell id="PeoV-E5NaPvogQtkDd-s-12" parent="PeoV-E5NaPvogQtkDd-s-9" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="EvaluateHand : Void" vertex="1">
+        <mxCell id="PeoV-E5NaPvogQtkDd-s-60" parent="PeoV-E5NaPvogQtkDd-s-9" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="EvaluateHand : Void" vertex="1">
           <mxGeometry height="26" width="160" y="86" as="geometry" />
+        </mxCell>
+        <mxCell id="PeoV-E5NaPvogQtkDd-s-52" parent="PeoV-E5NaPvogQtkDd-s-9" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="EvaluateHand : Void" vertex="1">
+          <mxGeometry height="26" width="160" y="112" as="geometry" />
+        </mxCell>
+        <mxCell id="PeoV-E5NaPvogQtkDd-s-12" parent="PeoV-E5NaPvogQtkDd-s-9" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="GetScore: Quantity" vertex="1">
+          <mxGeometry height="26" width="160" y="138" as="geometry" />
         </mxCell>
         <mxCell id="PeoV-E5NaPvogQtkDd-s-19" edge="1" parent="1" source="PeoV-E5NaPvogQtkDd-s-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=ERzeroToOne;endFill=0;startArrow=ERone;startFill=0;" target="PeoV-E5NaPvogQtkDd-s-9">
           <mxGeometry relative="1" as="geometry" />
@@ -85,7 +105,7 @@
         <mxCell id="PeoV-E5NaPvogQtkDd-s-16" parent="PeoV-E5NaPvogQtkDd-s-13" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="Hit : Void" vertex="1">
           <mxGeometry height="26" width="160" y="86" as="geometry" />
         </mxCell>
-        <mxCell id="PeoV-E5NaPvogQtkDd-s-23" parent="PeoV-E5NaPvogQtkDd-s-13" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="Pass : Void" vertex="1">
+        <mxCell id="PeoV-E5NaPvogQtkDd-s-23" parent="PeoV-E5NaPvogQtkDd-s-13" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="Stand: Void" vertex="1">
           <mxGeometry height="26" width="160" y="112" as="geometry" />
         </mxCell>
         <mxCell id="PeoV-E5NaPvogQtkDd-s-36" edge="1" parent="1" source="PeoV-E5NaPvogQtkDd-s-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=ERzeroToMany;endFill=0;" target="PeoV-E5NaPvogQtkDd-s-32">
@@ -122,7 +142,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="PeoV-E5NaPvogQtkDd-s-37" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Dealer" vertex="1">
-          <mxGeometry height="112" width="160" x="580" y="53" as="geometry" />
+          <mxGeometry height="164" width="160" x="580" y="27" as="geometry" />
         </mxCell>
         <mxCell id="PeoV-E5NaPvogQtkDd-s-38" parent="PeoV-E5NaPvogQtkDd-s-37" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="Name : Name" vertex="1">
           <mxGeometry height="26" width="160" y="26" as="geometry" />
@@ -133,8 +153,14 @@
         <mxCell id="PeoV-E5NaPvogQtkDd-s-42" parent="PeoV-E5NaPvogQtkDd-s-37" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="SetupGame : Void" vertex="1">
           <mxGeometry height="26" width="160" y="60" as="geometry" />
         </mxCell>
-        <mxCell id="PeoV-E5NaPvogQtkDd-s-40" parent="PeoV-E5NaPvogQtkDd-s-37" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="EvaluateVictory : Void" vertex="1">
+        <mxCell id="PeoV-E5NaPvogQtkDd-s-57" parent="PeoV-E5NaPvogQtkDd-s-37" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="Deal : Void" vertex="1">
           <mxGeometry height="26" width="160" y="86" as="geometry" />
+        </mxCell>
+        <mxCell id="PeoV-E5NaPvogQtkDd-s-8" parent="PeoV-E5NaPvogQtkDd-s-37" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="Discard: Void" vertex="1">
+          <mxGeometry height="26" width="160" y="112" as="geometry" />
+        </mxCell>
+        <mxCell id="PeoV-E5NaPvogQtkDd-s-40" parent="PeoV-E5NaPvogQtkDd-s-37" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="EvaluateVictory : Void" vertex="1">
+          <mxGeometry height="26" width="160" y="138" as="geometry" />
         </mxCell>
         <mxCell id="PeoV-E5NaPvogQtkDd-s-51" edge="1" parent="1" source="PeoV-E5NaPvogQtkDd-s-47" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="PeoV-E5NaPvogQtkDd-s-48">
           <mxGeometry relative="1" as="geometry" />

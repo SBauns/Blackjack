@@ -113,3 +113,18 @@ code {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
     text-align: start;
 }
+
+/* Created CSS classes */
+.player-container {
+    border-radius: 6px;
+}
+
+/* When the player has won */
+.player-won {
+    background-color: #9be79b; /* soft green */
+}
+
+/* Default/neutral background */
+.player-neutral {
+    background-color: lightgray;
+}
