@@ -29,6 +29,16 @@ namespace BlackjackAPI.Classes
             Cards = new List<Card>();
         }
 
+        public void ResetScore()
+        {
+            Scores = new Dictionary<string, Quantity>()
+            {
+                    {"Low", new Quantity(0)},
+                    {"High", new Quantity(0)}
+            };
+            Isbusted.SetValue(false);
+        }
+
         public void ReceiveCard(Card card)
         {
             Cards.Add(card);
@@ -81,7 +91,7 @@ namespace BlackjackAPI.Classes
             {
                 if (card.IsFaceDown())
                 {
-                    card.FlipCard();
+                    card.FlipUp();
                     addToScore(card);
                 }
             }

@@ -84,15 +84,24 @@ namespace BlackjackAPI.Services
 
             if(dealer.IsGameOver())
             {
-                _logger.LogInformation($"Game over for dealer {dealerId}.");
                 dealer.EvaluateVictory();
                 await Clients.Group(dealerId).SendAsync("GameOver", dealer.ToDataTransferObject());
             }
             else
             {
-                _logger.LogInformation($"Player {playerId} stands for dealer {dealerId}.");
                 await Clients.Group(dealerId).SendAsync("DealerUpdated", dealer.ToDataTransferObject(), player.Id);    
             }
+        }
+
+        public async Task NewGame(string dealerId)
+        {
+            Dealer? dealer = _gameService.GetDealer(dealerId);
+            if (dealer == null)
+                return;
+
+            dealer.SetupGame();
+
+            await Clients.Group(dealerId).SendAsync("DealerUpdated", dealer.ToDataTransferObject(), null);
         }
 
         // public override async Task OnDisconnectedAsync(Exception? exception)

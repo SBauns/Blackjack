@@ -11,8 +11,15 @@
 
 @if (_dealer != null)
 {
-    <button class="btn btn-success" @onclick="Hit">Hit</button>
-    <button class="btn btn-warning" @onclick="Stand">Stand</button>
+    if (_dealer.Players.All(p => p.Hand.IsBusted || p.HasWon || p.IsStanding))
+    {
+        <h2>Game Over!</h2>
+        <button class="btn btn-warning" @onclick="NewGame">New Game</button>
+    }
+    else{
+        <button class="btn btn-success" @onclick="Hit">Hit</button>
+        <button class="btn btn-warning" @onclick="Stand">Stand</button>
+    }
     <h5>Dealer: @_dealer.Name</h5>
     <p>Score: @_dealer.Hand.Score</p>
     <div>
@@ -68,10 +75,12 @@ else
             .WithAutomaticReconnect()
             .Build();
 
-        hubConnection.On<Dealer, string>("DealerUpdated", (Dealer dealer, string playerId) =>
+        hubConnection.On<Dealer, string?>("DealerUpdated", (Dealer dealer, string? playerId) =>
         {
             _dealer = dealer;
-            _playerId = playerId;
+            if (playerId is not null){
+                _playerId = playerId;
+            }
             _errorMessage = string.Empty;
             InvokeAsync(StateHasChanged);
         });
@@ -79,7 +88,6 @@ else
         hubConnection.On<Dealer>("GameOver", (Dealer dealer) =>
         {
             _dealer = dealer;
-            _errorMessage = "Game Over!";
             InvokeAsync(StateHasChanged);
         });
 
@@ -113,6 +121,14 @@ else
         if (hubConnection is not null)
         {
             await hubConnection.InvokeAsync("Stand", gameId, _playerId);
+        }
+    }
+
+    private async Task NewGame()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.InvokeAsync("NewGame", gameId);
         }
     }
 }

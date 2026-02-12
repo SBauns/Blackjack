@@ -38,24 +38,29 @@ namespace BlackjackAPI.Classes
             {
                 player.Reset();
             }
+            foreach (Card card in Hand.ReturnCards())
+            {
+                Discard(card);    
+            }
+            Hand.ResetScore();
             Deck.Shuffle();
-
-            Hand.ReturnCards();
 
             foreach (Player player in Players)
             {
                 player.Hit();
             }
 
-            Card card = Deck.GetTopCard();
-            card.FlipCard();
-            Hand.ReceiveCard(card);
-            Hand.ReceiveCard(Deck.GetTopCard());
+            Card firstCard = Deck.GetTopCard();
+            firstCard.FlipDown();
+            Hand.ReceiveCard(firstCard);
+
+            Card secondCard = Deck.GetTopCard();
+            secondCard.FlipUp();
+            Hand.ReceiveCard(secondCard);
         }
 
         public void PlayerJoin(Player player)
         {
-            player.Hit();
             Players.Add(player);
         }
 
@@ -92,7 +97,9 @@ namespace BlackjackAPI.Classes
             {
                 while (!Hand.IsBusted() && Hand.GetScore() < 17 && Players.Any(p => p.Hand.GetScore() > Hand.GetScore())) //TODO Set this somewhere else or magic number
                 {
-                    Hand.ReceiveCard(Deal());
+                    Card card = Deal();
+                    card.FlipUp();
+                    Hand.ReceiveCard(card);
                 }      
             }
 

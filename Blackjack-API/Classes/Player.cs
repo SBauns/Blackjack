@@ -36,6 +36,7 @@ namespace BlackjackAPI.Classes
         public void Hit()
         {
             Card card = Dealer.Deal();
+            card.FlipUp();
             Hand.ReceiveCard(card);
             if (Hand.IsBusted())
             {
@@ -50,6 +51,8 @@ namespace BlackjackAPI.Classes
                 Dealer.Discard(card);
             }
             IsStanding = false;
+            HasWon = false;
+            Hand = new Hand();
         }
 
         public void Stand()

@@ -53,7 +53,6 @@ namespace BlackjackAPI.Classes
                 PutInDiscard(card);
             }
             Cards.Clear();
-
             //Randomly move cards back to deck
             Random rng = new Random();
             int amountOfCards = DiscardedCards.Count;
@@ -80,6 +79,7 @@ namespace BlackjackAPI.Classes
 
         public void PutInDiscard(Card card)
         {
+            card.FlipDown();
             DiscardedCards.Add(card);
         }
     }

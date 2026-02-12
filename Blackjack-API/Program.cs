@@ -12,12 +12,12 @@ builder.Services.AddSignalR();
 // Add CORS policy TODO actually create policy
 builder.Services.AddCors(options =>
 {
-options.AddPolicy("AllowAllOrigin", policy =>
-{
-policy.AllowAnyOrigin()
-.AllowAnyMethod()
-.AllowAnyHeader();
-});
+    options.AddPolicy("AllowAllOrigin", policy =>
+    {
+    policy.AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader();
+    });
 });
 
 var app = builder.Build();

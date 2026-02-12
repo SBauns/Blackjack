@@ -14,7 +14,7 @@ namespace BlackjackAPI.Classes
         private CardQuantity Value;
         private Suit Suit;
 
-        private bool isFaceDown { get; set; } = false;
+        private bool isFaceDown { get; set; } = true;
 
         public Card(CardQuantity value, Suit suit)
         {
@@ -25,6 +25,16 @@ namespace BlackjackAPI.Classes
         public void FlipCard()
         {
             isFaceDown = !isFaceDown;
+        }
+
+        public void FlipUp()
+        {
+            isFaceDown = false;
+        }
+
+        public void FlipDown()
+        {
+            isFaceDown = true;
         }
 
         public bool IsFaceDown()
