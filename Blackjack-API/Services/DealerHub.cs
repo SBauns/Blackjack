@@ -5,6 +5,8 @@ using BlackjackAPI.Classes;
 //WARNING AI GENERATED CODE PLEASE CHECK TODO
 namespace BlackjackAPI.Services
 {
+    /// <summary>
+    /// This is a hub for managing actions in real time between the server dealer and a number of players
     public class DealerHub : Hub
     {
         private readonly GameService _gameService;
@@ -15,6 +17,31 @@ namespace BlackjackAPI.Services
             _logger = logger;
         }
 
+        /// <summary>
+        /// Creates a new dealer and adds the player to it. The player is identified by their
+        /// connection id.
+        public async Task CreateDealer(string playerName)
+        {
+            try
+            {
+                Dealer dealer = _gameService.CreateDealer();
+
+                await Groups.AddToGroupAsync(Context.ConnectionId, dealer.Id.ToString());
+
+                Player player = new Player(new DomainPrimitives.Name(playerName), new DomainPrimitives.Quantity(1000), dealer, Context.ConnectionId);
+
+                dealer.PlayerJoin(player);
+                
+                await Clients.Caller.SendAsync("DealerUpdated", dealer.ToDataTransferObject(), player.Id);
+            }
+            catch (System.Exception e)
+            {
+                await Clients.Caller.SendAsync("Error", e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Adds the player to an existing dealer. The player is identified by their connection id.
         public async Task JoinDealer(string dealerId, string playerName)
         {
             try
@@ -23,11 +50,9 @@ namespace BlackjackAPI.Services
 
                 Dealer dealer = _gameService.JoinDealer(dealerId);
 
-                Player player = new Player(new DomainPrimitives.Name(playerName), new DomainPrimitives.Quantity(1000), dealer);
+                Player player = new Player(new DomainPrimitives.Name(playerName), new DomainPrimitives.Quantity(1000), dealer, Context.ConnectionId);
 
                 dealer.PlayerJoin(player);
-
-                dealer.SetupGame();
 
                 await Clients.Group(dealerId).SendAsync("DealerUpdated", dealer.ToDataTransferObject(), player.Id);
             }
@@ -37,6 +62,8 @@ namespace BlackjackAPI.Services
             }
         }
 
+        /// <summary>
+        /// This method allows the player to hit.
         public async Task Hit(string dealerId, string playerId)
         {
             Dealer? dealer = _gameService.GetDealer(dealerId);
@@ -69,6 +96,8 @@ namespace BlackjackAPI.Services
             }
         }
 
+        /// <summary>
+        /// This method allows the player to stand.
         public async Task Stand(string dealerId, string playerId)
         {
             Dealer? dealer = _gameService.GetDealer(dealerId);
@@ -93,6 +122,8 @@ namespace BlackjackAPI.Services
             }
         }
 
+        /// <summary>
+        /// This method starts a new game by resetting the dealer and all players, shuffling the deck and dealing new cards.
         public async Task NewGame(string dealerId)
         {
             Dealer? dealer = _gameService.GetDealer(dealerId);
@@ -104,14 +135,16 @@ namespace BlackjackAPI.Services
             await Clients.Group(dealerId).SendAsync("DealerUpdated", dealer.ToDataTransferObject(), null);
         }
 
-        // public override async Task OnDisconnectedAsync(Exception? exception)
-        // {
-        //     foreach (var dealer in Dealers.Values)
-        //     {
-        //         dealer.PlayerLeave(Context.ConnectionId);
-        //     }
+        /// <summary>
+        /// This method is called when a player disconnects. It removes the player from any dealers they are part of.
+        public override async Task OnDisconnectedAsync(Exception? exception)
+        {
+            foreach (Dealer dealer in _gameService.GetDealers().Values)
+            {
+                dealer.PlayerLeave(Context.ConnectionId);
+            }
 
-        //     await base.OnDisconnectedAsync(exception);
-        // }
+            await base.OnDisconnectedAsync(exception);
+        }
     }
 }

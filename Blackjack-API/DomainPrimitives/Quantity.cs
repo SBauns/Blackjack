@@ -1,5 +1,10 @@
 namespace BlackjackAPI.DomainPrimitives
 {
+    /// <summary>
+    /// This class represents a quantity in the Blackjack game.
+    /// It includes validation logic to ensure that the quantity is not negative 
+    /// and does not exceed a reasonable limit (e.g., 1,000,000).
+    /// </summary>
     public class Quantity
     {
         private int Value;

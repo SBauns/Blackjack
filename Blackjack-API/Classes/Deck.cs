@@ -54,6 +54,7 @@ namespace BlackjackAPI.Classes
             }
             Cards.Clear();
             //Randomly move cards back to deck
+            //By taking a random card from the discard and putting it back in the deck until there are no more cards in the discard
             Random rng = new Random();
             int amountOfCards = DiscardedCards.Count;
             while (amountOfCards > 0)

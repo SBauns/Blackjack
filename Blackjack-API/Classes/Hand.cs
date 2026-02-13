@@ -6,14 +6,14 @@ namespace BlackjackAPI.Classes
     {
         public int Score { get; set; }
         public bool IsBusted { get; set; }
-        public List<CardDataTransferObject> Cards { get; set; }
+        public List<CardDataTransferObject> Cards { get; set; } = new List<CardDataTransferObject>();
     }
     public class Hand
     {
         //PROPERTIES
         private Dictionary<string, Quantity> Scores;
 
-        public IsBusted Isbusted { get; private set; }
+        public bool Isbusted { get; private set; }
 
         //RELATIONSHIPS
         public List<Card> Cards { get; private set; }
@@ -25,7 +25,7 @@ namespace BlackjackAPI.Classes
                     {"Low", new Quantity(0)},
                     {"High", new Quantity(0)}
             };
-            Isbusted = new IsBusted(false);
+            Isbusted = false;
             Cards = new List<Card>();
         }
 
@@ -36,7 +36,7 @@ namespace BlackjackAPI.Classes
                     {"Low", new Quantity(0)},
                     {"High", new Quantity(0)}
             };
-            Isbusted.SetValue(false);
+            Isbusted = false;
         }
 
         public void ReceiveCard(Card card)
@@ -53,6 +53,13 @@ namespace BlackjackAPI.Classes
             IsBusted();
         }
 
+        /// <summary>
+        /// This method adds the value of a card to the hand's score.
+        /// It handles the special cases for royalty cards (Jack, Queen, King) which are worth 10 points,
+        /// and Aces which can be worth either 1 or 11 points.
+        /// The method updates both the "Low" and "High" scores to account for the potential values of Aces.
+        /// </summary>
+        /// <param name="card"></param>
         private void addToScore(Card card)
         {
             if (card.GetValue() > 10) //Royalty cards are worth 10 points
@@ -113,15 +120,15 @@ namespace BlackjackAPI.Classes
         {
             if (Scores["Low"].GetValue() > 21 && Scores["High"].GetValue() > 21) //TODO Set this somewhere else or magic number
             {
-                Isbusted.SetValue(true);
+                Isbusted = true;
             }
-            return Isbusted.GetValue();
+            return Isbusted;
         }
         public HandDataTransferObject ToDataTransferObject()
         {
             HandDataTransferObject dto = new HandDataTransferObject();
             dto.Score = GetScore();
-            dto.IsBusted = Isbusted.GetValue();
+            dto.IsBusted = Isbusted;
             dto.Cards = Cards.Select(card => card.ToDataTransferObject()).ToList();
             return dto;
         }

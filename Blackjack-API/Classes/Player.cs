@@ -4,17 +4,17 @@ namespace BlackjackAPI.Classes
 {
     public class PlayerDataTransferObject
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
+        public string Id { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
         public int Credits { get; set; }
-        public HandDataTransferObject Hand { get; set; }
+        public HandDataTransferObject Hand { get; set; } = new HandDataTransferObject();
         public bool HasWon { get; set; }
         public bool IsStanding { get; set; }
     }
     public class Player
     {
         //PROPERTIES
-        public Guid Id { get; private set; }
+        public string Id { get; private set; }
         public Name Name { get; private set; }
         public Quantity Credits { get; private set; }
 
@@ -24,9 +24,9 @@ namespace BlackjackAPI.Classes
 
         public bool IsStanding { get; private set; } = false;
         public bool HasWon { get; set; } = false;
-        public Player(Name name, Quantity credits, Dealer dealer)
+        public Player(Name name, Quantity credits, Dealer dealer, string connectionId)
         {
-            Id = Guid.NewGuid();
+            Id = connectionId;
             Name = name;
             Credits = credits;
             Dealer = dealer;

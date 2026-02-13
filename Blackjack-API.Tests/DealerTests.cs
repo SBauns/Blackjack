@@ -57,8 +57,8 @@ public class DealerTests
     {
         //Arrange
         Dealer dealer = new Dealer();
-        Player player1 = new Player(new Name("PlayerOne"), new Quantity(100), dealer);
-        Player player2 = new Player(new Name("PlayerTwo"), new Quantity(100), dealer);
+        Player player1 = new Player(new Name("PlayerOne"), new Quantity(100), dealer, "PlayerOneConnectionId");
+        Player player2 = new Player(new Name("PlayerTwo"), new Quantity(100), dealer, "PlayerTwoConnectionId");
 
         //Act
         dealer.PlayerJoin(player1);
@@ -70,7 +70,7 @@ public class DealerTests
             playersAfterJoining.Add(player);
         }
 
-        dealer.PlayerLeave(player1);
+        dealer.PlayerLeave(player1.Id);
         List<Player> playersAfterLeaving = dealer.GetPlayers(); // Assuming Players is accessible for testing
 
         //Assert
@@ -85,8 +85,8 @@ public class DealerTests
     {
         //Arrange
         Dealer dealer = new Dealer();
-        Player player1 = new Player(new Name("PlayerOne"), new Quantity(100), dealer);
-        Player player2 = new Player(new Name("PlayerTwo"), new Quantity(100), dealer);
+        Player player1 = new Player(new Name("PlayerOne"), new Quantity(100), dealer, "PlayerOneConnectionId");
+        Player player2 = new Player(new Name("PlayerTwo"), new Quantity(100), dealer, "PlayerTwoConnectionId");
         Card dealerCard1 = new Card(new CardQuantity(10), Suit.Spades);
         Card dealerCard2 = new Card(new CardQuantity(7), Suit.Hearts);
         dealerCard1.FlipUp();
@@ -127,7 +127,7 @@ public class DealerTests
     {
         //Arrange
         Dealer dealer = new Dealer();
-        Player player = new Player(new Name("PlayerOne"), new Quantity(100), dealer);
+        Player player = new Player(new Name("PlayerOne"), new Quantity(100), dealer, "PlayerOneConnectionId");
         Card dealerCard1 = new Card(new CardQuantity(1), Suit.Spades); // Ace
         Card dealerCard2 = new Card(new CardQuantity(10), Suit.Hearts); // 10
         dealerCard2.FlipUp();
@@ -158,7 +158,7 @@ public class DealerTests
     {
         //Arrange
         Dealer dealer = new Dealer();
-        Player player = new Player(new Name("TestPlayer"), new Quantity(100), dealer);
+        Player player = new Player(new Name("TestPlayer"), new Quantity(100), dealer, "TestPlayerConnectionId");
 
         //Act & Assert
         try
@@ -177,7 +177,7 @@ public class DealerTests
         }
         catch (Exception ex)
         {
-            Assert.True(false, $"An exception was thrown during the game flow: {ex.Message}");
+            Assert.Fail(ex.Message);
         }
     }
 }

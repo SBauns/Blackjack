@@ -5,9 +5,9 @@ namespace BlackjackAPI.Classes
     public class DealerDataTransferObject
     {
         public Guid Id { get; set; }
-        public string Name { get; set; }
-        public List<PlayerDataTransferObject> Players { get; set; }
-        public HandDataTransferObject Hand { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public List<PlayerDataTransferObject> Players { get; set; } = new List<PlayerDataTransferObject>();
+        public HandDataTransferObject Hand { get; set; } = new HandDataTransferObject();
     }
     public class Dealer
     {
@@ -36,6 +36,7 @@ namespace BlackjackAPI.Classes
         {
             foreach (Player player in Players)
             {
+                //Resets players which also returns their cards to the dealer and resets their hand and score
                 player.Reset();
             }
             foreach (Card card in Hand.ReturnCards())
@@ -47,11 +48,15 @@ namespace BlackjackAPI.Classes
 
             foreach (Player player in Players)
             {
+                //Initial deal of 2 cards to each player
+                player.Hit();
                 player.Hit();
             }
 
+            //Initial deal of 2 cards to dealer
+            //One card face down and one card face up
             Card firstCard = Deck.GetTopCard();
-            firstCard.FlipDown();
+            firstCard.FlipDown(); //Not necessary since cards are face down by default but just to be explicit
             Hand.ReceiveCard(firstCard);
 
             Card secondCard = Deck.GetTopCard();
@@ -64,9 +69,9 @@ namespace BlackjackAPI.Classes
             Players.Add(player);
         }
 
-        public void PlayerLeave(Player player)
+        public void PlayerLeave(string playerId)
         {
-            Players.Remove(player);
+            Players.RemoveAll(p => p.Id == playerId);
         }
 
         public List<Player> GetPlayers()
@@ -91,6 +96,7 @@ namespace BlackjackAPI.Classes
 
         public void EvaluateVictory()
         {
+            //Flip up cards to give them value for score calculation
             Hand.FlipUpAllCards();
             //Build own hand
             if (!Players.All(p => p.Hand.IsBusted()))
@@ -109,16 +115,11 @@ namespace BlackjackAPI.Classes
                 bool playerBeatsDealer = player.Hand.GetScore() > Hand.GetScore();
                 bool playerNotBusted = !player.Hand.IsBusted();
                 bool dealerBusted = Hand.IsBusted();
-
-                
+    
                 if ((playerBeatsDealer && playerNotBusted) || (dealerBusted && playerNotBusted))
                 {
                     player.HasWon = true;
                 }
-                // else if (player.Hand.Score.GetValue() <= Hand.Score.GetValue() && !Hand.Isbusted)
-                // {
-                //     //Dealer wins
-                // }
             }
         }
 

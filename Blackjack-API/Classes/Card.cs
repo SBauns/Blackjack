@@ -5,7 +5,7 @@ namespace BlackjackAPI.Classes
     public class CardDataTransferObject
     {
         public int Value { get; set; }
-        public string Suit { get; set; }
+        public string Suit { get; set; } = string.Empty;
         public bool IsFaceDown { get; set; }
     }
     public class Card
@@ -20,11 +20,6 @@ namespace BlackjackAPI.Classes
         {
             Value = value;
             Suit = suit;
-        }
-
-        public void FlipCard()
-        {
-            isFaceDown = !isFaceDown;
         }
 
         public void FlipUp()

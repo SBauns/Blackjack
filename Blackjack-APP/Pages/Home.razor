@@ -4,8 +4,10 @@
 @using System.Text.Json
 @using Newtonsoft.Json.Linq
 @inject NavigationManager NavigationManager
+@inject HttpClient Http
 
 <h4>@_errorMessage</h4>
+<h4>@_playerId</h4>
 <h3>Blackjack</h3>
 
 
@@ -35,41 +37,68 @@
             }
         }
     </div>
+    <div class="d-flex flex-wrap">
     @foreach (Player player in _dealer.Players)
     {
         <div class="player-container @(player.HasWon ? "player-won" : "player-neutral") p-2 m-2">
-            <h5>Player: @player.Name</h5>
-            <p>Score: @player.Hand.Score</p>
-            <div>
-                @foreach (var card in player.Hand.Cards)
-                {
-                    <img src="@($"/cards/{card.Suit.First()}{card.Value}.png")" 
-                        alt="Card Image" width="80px" />
-                }
-            </div>
-    </div>
+                <h5>Player: @player.Name</h5>
+                <h5>ID: @player.Id</h5>
+                <p>Score: @player.Hand.Score</p>
+                <div>
+                    @foreach (var card in player.Hand.Cards)
+                    {
+                        <img src="@($"/cards/{card.Suit.First()}{card.Value}.png")" 
+                            alt="Card Image" width="80px" />
+                    }
+                </div>
+        </div>
     }
+    </div>
 }
 else
 {
     <input type="text" @bind="playerName" placeholder="Player Name" class="form-control mb-2" />
     <button class="btn btn-primary" @onclick="CreateGame">Create Game</button>
-    <p>No game created yet.</p>
-}
+    if (activeDealers.Count > 0)
+    {
+        <h4>Active Games:</h4>
+        <ul>
+            @foreach (var dealer in activeDealers)
+            {
+                <li>
+                    <button class="btn btn-link" @onclick="() => JoinGame(dealer.Id)">@dealer.Name & @dealer.Id</button>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No active games. Create one to get started!</p>
+    }
 
 @code {
     private HubConnection? hubConnection;
-    private string gameId = Guid.NewGuid().ToString();
-    private Dealer _dealer;
+    private Dealer? _dealer;
+
+    private List<Dealer> activeDealers = new List<Dealer>();
 
     private string playerName = "Player";
 
-    private string _playerId;
+    private string _playerId = string.Empty;
 
-    private string _errorMessage;
+    private string _errorMessage = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
+        try
+        {
+            activeDealers = await Http.GetFromJsonAsync<List<Dealer>>("http://localhost:5049/api/game/dealers"); //TODO Do not hardcode
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"Error loading active dealers: {ex.Message}";
+        }
+
         hubConnection = new HubConnectionBuilder()
             .WithUrl("http://localhost:5049/dealerhub") //TODO Do not hardcode
             .WithAutomaticReconnect()
@@ -78,7 +107,7 @@ else
         hubConnection.On<Dealer, string?>("DealerUpdated", (Dealer dealer, string? playerId) =>
         {
             _dealer = dealer;
-            if (playerId is not null){
+            if (playerId is not null && _playerId is null){
                 _playerId = playerId;
             }
             _errorMessage = string.Empty;
@@ -104,7 +133,14 @@ else
     {
         if (hubConnection is not null)
         {
-            await hubConnection.InvokeAsync("JoinDealer", gameId, playerName);
+            await hubConnection.InvokeAsync("CreateDealer", playerName);
+        }
+    }
+    private async Task JoinGame(Guid dealerId)
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.InvokeAsync("JoinDealer", dealerId, playerName);
         }
     }
 
@@ -112,7 +148,7 @@ else
     {
         if (hubConnection is not null)
         {
-            await hubConnection.InvokeAsync("Hit", gameId, _playerId);
+            await hubConnection.InvokeAsync("Hit", _dealer.Id, _playerId);
         }
     }
 
@@ -120,7 +156,7 @@ else
     {
         if (hubConnection is not null)
         {
-            await hubConnection.InvokeAsync("Stand", gameId, _playerId);
+            await hubConnection.InvokeAsync("Stand", _dealer.Id, _playerId);
         }
     }
 
@@ -128,7 +164,9 @@ else
     {
         if (hubConnection is not null)
         {
-            await hubConnection.InvokeAsync("NewGame", gameId);
+            await hubConnection.InvokeAsync("NewGame", _dealer.Id);
         }
     }
+
+}
 }

@@ -1,5 +1,8 @@
 namespace BlackjackAPI.DomainPrimitives
 {
+    /// <summary>
+    /// This class represents the quantity of a card in a standard deck of playing cards.
+    /// </summary>
     public class CardQuantity
     {
         private int Value;

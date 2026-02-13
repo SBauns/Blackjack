@@ -1,5 +1,11 @@
 namespace BlackjackAPI.DomainPrimitives
 {
+    /// <summary>
+    /// This class represents a player's name in the Blackjack game. 
+    /// It includes validation logic to ensure that the name is not empty, 
+    /// not too long, not too short, and does not contain invalid characters. 
+    /// The name can only contain letters and spaces, and must be between 2 and 50 characters in length.
+    /// </summary>
     public class Name
     {
         private string Value;

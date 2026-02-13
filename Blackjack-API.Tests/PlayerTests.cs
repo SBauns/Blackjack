@@ -10,7 +10,7 @@ public class PlayerTests
     {
         //Arrange
         Dealer dealer = new Dealer();
-        Player player = new Player(new Name("TestPlayer"), new Quantity(100), dealer);
+        Player player = new Player(new Name("TestPlayer"), new Quantity(100), dealer, "TestPlayerConnectionId");
 
         //Act
         player.Hit();
@@ -32,7 +32,7 @@ public class PlayerTests
     {
         //Arrange
         Dealer dealer = new Dealer();
-        Player player = new Player(new Name("TestPlayer"), new Quantity(100), dealer);
+        Player player = new Player(new Name("TestPlayer"), new Quantity(100), dealer, "TestPlayerConnectionId");
 
         //Act
         player.Stand();
@@ -47,7 +47,7 @@ public class PlayerTests
     {
         //Arrange
         Dealer dealer = new Dealer();
-        Player player = new Player(new Name("TestPlayer"), new Quantity(100), dealer);
+        Player player = new Player(new Name("TestPlayer"), new Quantity(100), dealer, "TestPlayerConnectionId");
         player.Hit(); // Player receives a card
 
         //Act
